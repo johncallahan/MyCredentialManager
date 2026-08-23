@@ -168,7 +168,8 @@ data class GetPublicKeyCredentialRequestJson(
     val challenge:String,
     val rpId:String,
     val userVerification: String,
-    val timeout: Int? = null
+    val timeout: Int? = null,
+    val requestId: Int? = null
 ) {
     @Serializable
     data class AllowCredential(
