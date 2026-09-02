@@ -83,12 +83,12 @@ class MainActivity : AppCompatActivity() {
             val getRequest =
                 PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
             val publicKeyRequests =
-                getRequest!!.credentialOptions as List<GetPublicKeyCredentialOption>
+                getRequest!!.credentialOptions.filterIsInstance<GetPublicKeyCredentialOption>()
 
             val requestInfo = intent.getBundleExtra("CREDENTIAL_DATA")
 
             publicKeyRequests.forEach { credentialOption ->
-                Log.d("MainActivity", "requsetJson:${credentialOption.requestJson}")
+                Log.d("MainActivity", "requestJson:${credentialOption.requestJson}")
             }
 
             val credIdEnc = requestInfo?.getString("credId")

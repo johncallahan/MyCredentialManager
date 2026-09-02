@@ -32,7 +32,7 @@ class GetCredentialActivity : AppCompatActivity() {
         val getRequest =
             PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
         val publicKeyRequests =
-            getRequest?.credentialOptions as List<GetPublicKeyCredentialOption>
+            getRequest!!.credentialOptions.filterIsInstance<GetPublicKeyCredentialOption>()
 
         val requestInfo = intent.getBundleExtra("CREDENTIAL_DATA")
         publicKeyRequests.forEach { credentialOption ->
@@ -40,7 +40,7 @@ class GetCredentialActivity : AppCompatActivity() {
 //                val value = credentialOption.requestData.get(key)
 //                Log.d("GetCredActivity", "key: $key, value: $value")
 //            }
-            Log.d("GetCredActivity", "requsetJson: ${credentialOption.requestJson}")
+            Log.d("GetCredActivity", "requestJson: ${credentialOption.requestJson}")
         }
 
         val credIdEnc = requestInfo?.getString("credId")
