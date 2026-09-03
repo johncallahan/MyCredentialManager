@@ -55,6 +55,8 @@ import java.security.interfaces.ECPublicKey
 import java.security.spec.ECGenParameterSpec
 import java.security.spec.ECPoint
 
+// see the note on GetCredentialActivity: androidx.credentials.webauthn.* is @RestrictTo(LIBRARY)
+@android.annotation.SuppressLint("RestrictedApi")
 class MainActivity : AppCompatActivity() {
 
     private val EXTRA_KEY_ACCOUNT_ID  = "com.example.mycredman.extra.EXTRA_KEY_ACCOUNT_ID"

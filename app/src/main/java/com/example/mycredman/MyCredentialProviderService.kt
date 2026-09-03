@@ -25,6 +25,8 @@ import androidx.credentials.webauthn.PublicKeyCredentialRequestOptions
 
 
 
+// see the note on GetCredentialActivity: androidx.credentials.webauthn.* is @RestrictTo(LIBRARY)
+@android.annotation.SuppressLint("RestrictedApi")
 class MyCredentialProviderService: androidx.credentials.provider.CredentialProviderService() {
 
     private val CREATE_PASSKEY_INTENT = "com.example.mycredman.action.CREATE_PASSKEY"

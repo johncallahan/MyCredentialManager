@@ -119,17 +119,23 @@ object CredmanUtils {
         return origin
     }
 
+    // WebAuthn uses unpadded base64url. Base64.UrlSafe defaults to PaddingOption.PRESENT, which
+    // both emits '=' on encode and *requires* it on decode, so encode/decode here must share one
+    // configured instance. ABSENT_OPTIONAL encodes unpadded and accepts either form on decode.
+    @OptIn(ExperimentalEncodingApi::class)
+    private val base64Url = Base64.UrlSafe.withPadding(Base64.PaddingOption.ABSENT_OPTIONAL)
+
     @OptIn(ExperimentalEncodingApi::class)
     fun b64Encode(data:ByteArray):String{
         // replace with import androidx.credentials.webauthn.WebAuthnUtils in future
-        return Base64.UrlSafe.encode(data).replace("=","")
+        return base64Url.encode(data)
     }
 
     @OptIn(ExperimentalEncodingApi::class)
     fun b64Decode(data:String?):ByteArray?{
         // replace with import androidx.credentials.webauthn.WebAuthnUtils in future
         if(data ==null || data.isEmpty()) return null
-        return Base64.UrlSafe.decode(data)
+        return base64Url.decode(data)
     }
 
     fun validateRpId(info: androidx.credentials.provider.CallingAppInfo, rpid:String): String{

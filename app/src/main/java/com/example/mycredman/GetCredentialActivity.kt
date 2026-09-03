@@ -1,5 +1,6 @@
 package com.example.mycredman
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,10 @@ import java.security.spec.ECParameterSpec
 import java.security.spec.ECPrivateKeySpec
 
 
+// androidx.credentials.webauthn.* is @RestrictTo(LIBRARY) in androidx.credentials:credentials.
+// The classes are public and present at runtime in 1.2.0, so this is a lint-only complaint,
+// but it will break if the dependency is ever upgraded.
+@SuppressLint("RestrictedApi")
 class GetCredentialActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +59,7 @@ class GetCredentialActivity : AppCompatActivity() {
 // Decode the credential ID, private key and user ID
 
         val credId = CredmanUtils.b64Decode(credIdEnc)
-        val privateKey = CredmanUtils.b64Decode(passkey!!.keyPair!!.private.toString())
+        val privateKey = (passkey!!.keyPair!!.private as ECPrivateKey).s.toByteArray()
         val uid = CredmanUtils.b64Decode(credIdEnc)
 
         val origin = CredmanUtils.appInfoToOrigin(getRequest.callingAppInfo)
@@ -68,7 +73,7 @@ class GetCredentialActivity : AppCompatActivity() {
             uid!!,
             passkey.displayName,
             credId!!,
-            privateKey!!
+            privateKey
         )
 
 
